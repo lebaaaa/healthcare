@@ -20,7 +20,6 @@ class ApiCalls {
   }
 
   //TODO Any other APIs
-  //hellow
 
 
   Map<String, String> regionId = {
