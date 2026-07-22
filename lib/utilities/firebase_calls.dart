@@ -23,6 +23,9 @@ class FirebaseCalls {
         name: doc.get('name'),
         email: doc.get('email'),
         userid: doc.get('userid'),
+        contact: doc.get('contact'),
+        age: doc.get('age'),
+        gender: doc.get('gender'),
         //TODO add contact, age, gender
       );
     } else {
@@ -30,7 +33,9 @@ class FirebaseCalls {
       appUser = AppUser(
         name: auth.currentUser?.displayName ?? '',
         email: auth.currentUser?.email ?? '',
-        userid: auth.currentUser?.uid ?? '',
+        userid: auth.currentUser?.uid ?? '', contact: '', age: '', gender: '',
+
+
         //TODO add contact, age, gender
       );
     }
@@ -48,6 +53,9 @@ class FirebaseCalls {
       QueryDocumentSnapshot doc = querySnap.docs[0];
       await doc.reference.update({
         'name': appUser.name,
+        'contact': appUser.contact,
+        'age': appUser.age,
+        'gender': appUser.gender,
         //TODO add contact, age, gender
       });
     } else {
@@ -55,7 +63,10 @@ class FirebaseCalls {
       await appUsersCollection.add({
         'name': appUser.name,
         'email': appUser.email,
-        'userid': appUser.userid
+        'userid': appUser.userid,
+        'contact': appUser.contact,
+        'age': appUser.age,
+        'gender': appUser.gender,
         //TODO add contact, age, gender
       });
     }

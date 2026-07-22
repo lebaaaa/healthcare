@@ -17,7 +17,8 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
+  List<String> genders = ['Male', 'Female', 'Rather not say'];
+  String _selectedGender = 'Male';
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +35,9 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                 if (snapshot.data!.docs.isNotEmpty) {
                   QueryDocumentSnapshot doc = snapshot.data!.docs[0];
                   nameController.text = doc.get('name');
+                  contactController.text = doc.get('contact');
+                  ageController.text = doc.get('age');
+                  
                 }
               }
               return Column(
@@ -58,16 +62,27 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                     decoration: const InputDecoration(labelText: 'Age'),
                     controller: ageController,
                   ),
-                  TextField(
-                    textAlign: TextAlign.center,
-                    decoration: const InputDecoration(labelText: 'Gender'),
-                    controller: genderController,
+                  DropdownButton(
+                    value: _selectedGender,
+                    items: [
+                      DropdownMenuItem(value: genders[0],child: Text(genders[0]),),
+                      DropdownMenuItem(value: genders[1],child: Text(genders[1]),),
+                      DropdownMenuItem(value: genders[2], child: Text(genders[2]))
+                    ],
+                    onChanged: (newValue){
+                      setState(() {
+                        _selectedGender = newValue!;
+                      });
+                    }
                   ),
                   ElevatedButton(
                     child: const Text('Save'),
                     onPressed: () async {
                       appUser = AppUser(
                         name: nameController.text,
+                        age: ageController.text,
+                        contact: contactController.text,
+                        gender: _selectedGender,
                         email: auth.currentUser?.email ?? "",
                         userid: auth.currentUser?.uid ?? "",
 

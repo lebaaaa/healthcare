@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 class ApiCalls {
 
   void fetchClinics(String region) async {
-    final String apiKey = 'YOUR-API-KEY';
+    final String apiKey = '055f8299f2f546c8925f380234329c2c';
     final String baseURL = 'https://api.geoapify.com/v2/places';
 
     final uri = Uri.parse(
