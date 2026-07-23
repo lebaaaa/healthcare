@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 
 class ApiCalls {
 
-  void fetchClinics(String region) async {
+   Future fetchClinics(String region) async {
     final String apiKey = '055f8299f2f546c8925f380234329c2c';
     final String baseURL = 'https://api.geoapify.com/v2/places';
 
@@ -14,6 +14,7 @@ class ApiCalls {
 
     if (response.statusCode == 200) {
       //TODO return List<Clinic>
+
     } else {
       throw Exception('Failed to load clinics');
     }
