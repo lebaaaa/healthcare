@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:healthcare/models/clinic.dart';
 import 'package:http/http.dart' as http;
 
 class ApiCalls {
 
-   Future fetchClinics(String region) async {
+   Future<List<Clinic>> fetchClinics(String region) async {
     final String apiKey = '055f8299f2f546c8925f380234329c2c';
     final String baseURL = 'https://api.geoapify.com/v2/places';
 
@@ -14,7 +15,9 @@ class ApiCalls {
 
     if (response.statusCode == 200) {
       //TODO return List<Clinic>
-
+      List<dynamic> jsonList= jsonDecode(response.body)['features'] as List<dynamic>;
+      List<Clinic> clinics = jsonList.map((json) => Clinic.fromJson(json)).toList();
+      return clinics;
     } else {
       throw Exception('Failed to load clinics');
     }

@@ -16,7 +16,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   late Clinic _selectedClinic;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     return Scaffold(
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 1),
       body: SafeArea(
@@ -40,7 +40,29 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
               ),
             ),
             //TODO FutureBuilder to get clinics in selected region
+            FutureBuilder<List<Clinic>>(
+              future:  ApiCalls().fetchClinics(_selectedRegion),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Expanded(
+                    child: ListView.builder(
+                      itemCount: snapshot.data!.length,
+                      itemBuilder: (context, index) {
+                        Clinic clinic= snapshot.data![index];
+                        return ListTile(
+                          title: Text(clinic.name),
+                          subtitle: Text(clinic.website),
 
+                        );
+                      },
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Text('${snapshot.error}');
+                }
+                return const CircularProgressIndicator();
+              },
+            ),
             //TODO Implement onTap for clinic > shows AddApptScreen() in bottom sheet
             //TODO Adds appointment to firebase with userid, userName, point_id, clinicName, date and time
           ],

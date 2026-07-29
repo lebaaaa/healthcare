@@ -16,4 +16,14 @@ class Clinic {
   });
 
   //TODO implement Clinic.fromJson
+  factory Clinic.fromJson(Map<String, dynamic> json) {
+    return Clinic(
+      name: json['properties']['name'] ?? "Name not found",
+      address: json['properties']['formatted'] ?? "Address not found",
+      website: json['properties']['website'] ?? "Website not found",
+      contact: json['properties']['contact']?['phone'] ??   "Contact not found",
+      opening_hours: json['properties']['opening_hours'] ?? "Opening Hours not found",
+      place_id: json['properties']['place_id'] ?? "Place ID not found",
+    );
+  }
 }
