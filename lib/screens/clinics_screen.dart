@@ -51,8 +51,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                         Clinic clinic= snapshot.data![index];
                         return ListTile(
                           title: Text(clinic.name),
-                          subtitle: Text(clinic.website),
-
+                          subtitle: Text(clinic.address),
                         );
                       },
                     ),

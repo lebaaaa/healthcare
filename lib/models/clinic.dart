@@ -19,7 +19,7 @@ class Clinic {
   factory Clinic.fromJson(Map<String, dynamic> json) {
     return Clinic(
       name: json['properties']['name'] ?? "Name not found",
-      address: json['properties']['formatted'] ?? "Address not found",
+      address: json['properties']['address_line2'] ?? "Address not found",
       website: json['properties']['website'] ?? "Website not found",
       contact: json['properties']['contact']?['phone'] ??   "Contact not found",
       opening_hours: json['properties']['opening_hours'] ?? "Opening Hours not found",

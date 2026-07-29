@@ -9,7 +9,7 @@ class ApiCalls {
     final String baseURL = 'https://api.geoapify.com/v2/places';
 
     final uri = Uri.parse(
-      '$baseURL?categories=healthcare.clinic_or_praxis&filter=place:${regionId[region]}&limit=10&apiKey=$apiKey',
+      '$baseURL?categories=healthcare.clinic_or_praxis&filter=place:${regionId[region]}&limit=20&apiKey=$apiKey',
     );
     final response = await http.get(uri);
 
