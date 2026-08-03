@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 import '../utilities/firebase_calls.dart';
@@ -31,6 +32,28 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Text('Welcome ${appUser.name}'),
           //TODO Widgets to show upcoming appointments
+          //Text('Welcome ${appointment.userName}')
+          StreamBuilder<QuerySnapshot>(
+            stream: FirebaseCalls().getAppointments(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Expanded(
+                  child: ListView.builder(
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      QueryDocumentSnapshot doc = snapshot.data!.docs[index];
+                      return ListTile(
+                        title: Text(doc['clinicName']),
+                        subtitle: Text(doc['date']),
+                      );
+                    },
+                  ),
+                );
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          )
         ],
       ),
     );

@@ -7,6 +7,8 @@ import '../models/appointment.dart';
 late AppUser appUser;
 bool newUser = false;
 
+late Appointment appointment;
+
 FirebaseAuth auth = FirebaseAuth.instance;
 CollectionReference appUsersCollection =
     FirebaseFirestore.instance.collection('appUsers');
@@ -34,8 +36,10 @@ class FirebaseCalls {
       appUser = AppUser(
         name: auth.currentUser?.displayName ?? '',
         email: auth.currentUser?.email ?? '',
-        userid: auth.currentUser?.uid ?? '', contact: '', age: '', gender: '',
-
+        userid: auth.currentUser?.uid ?? '',
+        contact: '',
+        age: '',
+        gender: '',
 
         //TODO add contact, age, gender
       );
@@ -83,5 +87,10 @@ class FirebaseCalls {
       'userid': appointment.userid,
     });
 
+  }
+  Stream<QuerySnapshot> getAppointments() {
+    return appointmentsCollection
+        .where('userid', isEqualTo: auth.currentUser?.uid)
+        .snapshots();
   }
 }
