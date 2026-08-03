@@ -18,7 +18,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   String _selectedRegion = ApiCalls().regionId.keys.first;
   late Clinic _selectedClinic;
 
-  Future<void> _addTask(String date, String time) async {
+  Future<void> _addTask(DateTime date, String time) async {
     await FirebaseCalls().addAppointment(Appointment(userid: appUser.userid, userName: appUser.name, point_id: _selectedClinic.place_id, clinicName: _selectedClinic.name, date: date, time: time));
   }
 

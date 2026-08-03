@@ -1,12 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:date_picker_plus/date_picker_plus.dart';
 
-class AddApptScreen extends StatelessWidget {
-  AddApptScreen({super.key, required this.addApptCallback});
+class AddApptScreen extends StatefulWidget {
+  AddApptScreen({super.key, required this.addApptCallback, });
   final Function addApptCallback;
 
-  final TextEditingController dateController = TextEditingController();
-  final TextEditingController timeController = TextEditingController();
+  @override
+  State<AddApptScreen> createState() => _AddApptScreenState();
+}
 
+class _AddApptScreenState extends State<AddApptScreen> {
+  final TextEditingController dateController = TextEditingController();
+
+  final TextEditingController timeController = TextEditingController();
+  late DateTime _selectedDate;
   @override
   Widget build(BuildContext context) {
     // TODO Widgets for user to enter date and time
@@ -21,14 +28,12 @@ class AddApptScreen extends StatelessWidget {
             textAlign: TextAlign.center,
             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 24),
           ),
-          TextField(
-            autofocus: true,
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              //border: OutlineInputBorder(),
-              labelText: 'Date',
-            ),
-            controller: dateController,
+          DatePicker(maxDate: DateTime(DateTime.now().year + 1), minDate: DateTime.now(),
+             onDateSelected: (date){
+              setState(() {
+                _selectedDate = date;
+              });
+             },
           ),
           SizedBox(height: 8,),
           TextField(
@@ -41,7 +46,7 @@ class AddApptScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: (){
-              addApptCallback(dateController.text, timeController.text);
+              widget.addApptCallback(_selectedDate, timeController.text);
               Navigator.pop(context);
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.cyan),

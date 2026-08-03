@@ -3,7 +3,7 @@ class Appointment {
   final String userName;
   final String point_id;
   final String clinicName;
-  final String date;
+  final DateTime date;
   final String time;
 
   Appointment({
