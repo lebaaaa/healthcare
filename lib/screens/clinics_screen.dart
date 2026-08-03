@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 
+import '../models/appointment.dart';
 import '../models/clinic.dart';
+import '../utilities/firebase_calls.dart';
 import '../widgets/navigation_bar.dart';
 import '../utilities/api_calls.dart';
+import 'add_appt_screen.dart';
 
 class ClinicsScreen extends StatefulWidget {
   const ClinicsScreen({Key? key}) : super(key: key);
@@ -14,6 +17,12 @@ class ClinicsScreen extends StatefulWidget {
 class _ClinicsScreenState extends State<ClinicsScreen> {
   String _selectedRegion = ApiCalls().regionId.keys.first;
   late Clinic _selectedClinic;
+
+  Future<void> _addTask(String date, String time) async {
+
+    await FirebaseCalls().addAppointment(Appointment(userid: auth.currentUser?.uid ?? '', userName: appUser.name, point_id: _selectedClinic.place_id, clinicName: _selectedClinic.name, date: date, time: time));
+
+  }
 
   @override
   Widget build(BuildContext context)  {
@@ -48,10 +57,25 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                     child: ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        Clinic clinic= snapshot.data![index];
+                        _selectedClinic= snapshot.data![index];
                         return ListTile(
-                          title: Text(clinic.name),
-                          subtitle: Text(clinic.address),
+                          title: Text(_selectedClinic.name),
+                          subtitle: Text(_selectedClinic.address),
+                          onTap: () async {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context){
+                                return SingleChildScrollView(
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                        bottom: MediaQuery.of(context).viewInsets.bottom),
+                                    child: AddApptScreen(addApptCallback: _addTask,),
+                                  ),
+                                );
+                              }
+                            );
+                          },
                         );
                       },
                     ),

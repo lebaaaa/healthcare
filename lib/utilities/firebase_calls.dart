@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/app_user.dart';
+import '../models/appointment.dart';
 
 late AppUser appUser;
 bool newUser = false;
@@ -72,4 +73,15 @@ class FirebaseCalls {
     }
   }
   //TODO addAppointment() and getAppointments
+  Future<void> addAppointment(Appointment appointment) async {
+    await appointmentsCollection.add({
+      'clinicName': appointment.clinicName,
+      'date': appointment.date,
+      'point_id': appointment.point_id,
+      'time': appointment.time,
+      'userName': appointment.userName,
+      'userid': appointment.userid,
+    });
+
+  }
 }
