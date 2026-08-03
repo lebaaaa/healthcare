@@ -19,9 +19,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   late Clinic _selectedClinic;
 
   Future<void> _addTask(String date, String time) async {
-
-    await FirebaseCalls().addAppointment(Appointment(userid: auth.currentUser?.uid ?? '', userName: appUser.name, point_id: _selectedClinic.place_id, clinicName: _selectedClinic.name, date: date, time: time));
-
+    await FirebaseCalls().addAppointment(Appointment(userid: appUser.userid, userName: appUser.name, point_id: _selectedClinic.place_id, clinicName: _selectedClinic.name, date: date, time: time));
   }
 
   @override
@@ -57,11 +55,12 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                     child: ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        _selectedClinic= snapshot.data![index];
+                        Clinic clinic= snapshot.data![index];
                         return ListTile(
-                          title: Text(_selectedClinic.name),
-                          subtitle: Text(_selectedClinic.address),
+                          title: Text(clinic.name),
+                          subtitle: Text(clinic.address),
                           onTap: () async {
+                            _selectedClinic = clinic;
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
