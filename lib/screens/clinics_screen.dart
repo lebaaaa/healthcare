@@ -34,16 +34,18 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
           width: 240,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            color: Colors.teal.shade100,
+            color: Colors.teal.shade400,
           ),
           child: DropdownButton(
             borderRadius: BorderRadius.circular(12),
-            dropdownColor: Colors.teal.shade100,
+            dropdownColor: Colors.teal.shade400,
             menuMaxHeight: 300,
             value:
             _selectedRegion,
             items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) { //Q&A
-              return DropdownMenuItem<String>(value: item, child: Text(item)); //taken from flutter website
+              return DropdownMenuItem<String>(value: item, child: Text(item, style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,),)); //taken from flutter website
             }).toList(),
             onChanged: (newValue) {
               setState(() {
@@ -56,70 +58,94 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
       ),
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 1),
       body: SafeArea(
-        child: Column(
-          children: [
-            //TODO Dropdown widget for user to select region
-            // Center(
-            //   child: Container(
-            //     width: 240,
-            //     decoration: BoxDecoration(
-            //       borderRadius: BorderRadius.circular(12),
-            //       color: Colors.teal.shade100,
-            //     ),
-            //     alignment: Alignment.center,
-            //     child:
-            //   ),
-            // ),
-            //TODO FutureBuilder to get clinics in selected region
-            FutureBuilder<List<Clinic>>(
-              future:  ApiCalls().fetchClinics(_selectedRegion),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Expanded(
-                    child: ListView.builder(
-                      itemCount: snapshot.data!.length,
-                      itemBuilder: (context, index) {
-                        Clinic clinic= snapshot.data![index];
-                        return Card(
-                          child: ListTile(
-                            tileColor: AppColors.Background,
-                            title: Text(clinic.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
-                            subtitle: Column(
-                              children: [
-                                Divider(thickness: 2, color: AppColors.Borders,)
-                              ],
+        child: FutureBuilder<List<Clinic>>(
+          future:  ApiCalls().fetchClinics(_selectedRegion),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (context, index) {
+                  Clinic clinic= snapshot.data![index];
+                  return Card(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12)),
+                    child: ListTile(
+                      contentPadding: EdgeInsets.all(10),
+                      tileColor: AppColors.Background,
+                      title: Text(clinic.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                      subtitle: Column(
+                        spacing: 15,
+                        children: [
+                          Divider(thickness: 2, color: Colors.black38,),
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Icon(Icons.pin_drop_outlined),
+                              Expanded(child: Text(clinic.address, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
+                            ],
+                          ),
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Icon(Icons.phone_sharp),
+                              Expanded(child: Text(clinic.contact, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
+                            ],
+                          ),
+                          Row(
+                            spacing: 10,
+                            children: [
+                              Icon(Icons.access_time),
+                              Expanded(child: Text(clinic.opening_hours, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
+                            ],
+                          ),
+                          ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.Background,
+                              side: BorderSide(width: 1.5, color: AppColors.Primary),
                             ),
-                            onTap: () async {
+                            onPressed: () {
                               _selectedClinic = clinic;
                               showModalBottomSheet(
                                 backgroundColor: Colors.grey.shade50,
                                 context: context,
                                 isScrollControlled: true,
-                                builder: (context){
+                                builder: (context) {
                                   return SingleChildScrollView(
                                     child: Padding(
                                       padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context).viewInsets.bottom),
-                                      child: AddApptScreen(addApptCallback: _addTask,),
+                                          bottom: MediaQuery
+                                              .of(context)
+                                              .viewInsets
+                                              .bottom),
+                                      child: AddApptScreen(
+                                        addApptCallback: _addTask,),
                                     ),
                                   );
-                                }
+                                },
                               );
                             },
+                            child: Padding(
+                              padding: const EdgeInsets.all(12.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                spacing: 15,
+                                children: [
+                                  Icon(Icons.calendar_month, size: 20,color: AppColors.Primary),
+                                  Text('Book Appointment', style: TextStyle(fontSize: 18, color: AppColors.Primary),)
+                                ],
+                              ),
+                            )
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   );
-                } else if (snapshot.hasError) {
-                  return Text('${snapshot.error}');
-                }
-                return const CircularProgressIndicator();
-              },
-            ),
-            //TODO Implement onTap for clinic > shows AddApptScreen() in bottom sheet
-            //TODO Adds appointment to firebase with userid, userName, point_id, clinicName, date and time
-          ],
+                },
+              );
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
+            }
+            return const CircularProgressIndicator();
+          },
         ),
       ),
     );
