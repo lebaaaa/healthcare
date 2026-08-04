@@ -67,7 +67,8 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                 itemBuilder: (context, index) {
                   Clinic clinic= snapshot.data![index];
                   return Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12)),
+                    margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12), side: BorderSide(width: 1.3, color: AppColors.Borders),),
                     child: ListTile(
                       contentPadding: EdgeInsets.all(10),
                       tileColor: AppColors.Background,
