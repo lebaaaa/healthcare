@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:healthcare/utilities/app_colors.dart';
 
 import '../models/appointment.dart';
 import '../models/clinic.dart';
@@ -25,28 +26,50 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
-      backgroundColor: Colors.grey.shade50,
+      appBar: AppBar(
+        backgroundColor: AppColors.Primary,
+        centerTitle: true,
+        title: Container(
+          alignment: Alignment.center,
+          width: 240,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: Colors.teal.shade100,
+          ),
+          child: DropdownButton(
+            borderRadius: BorderRadius.circular(12),
+            dropdownColor: Colors.teal.shade100,
+            menuMaxHeight: 300,
+            value:
+            _selectedRegion,
+            items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) { //Q&A
+              return DropdownMenuItem<String>(value: item, child: Text(item)); //taken from flutter website
+            }).toList(),
+            onChanged: (newValue) {
+              setState(() {
+                _selectedRegion = newValue!;
+                ApiCalls().fetchClinics(_selectedRegion);
+              });
+            },
+          ),
+        ),
+      ),
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 1),
       body: SafeArea(
         child: Column(
           children: [
             //TODO Dropdown widget for user to select region
-            Center(
-              child: DropdownButton(
-                menuMaxHeight: 300,
-                value:
-                _selectedRegion,
-                items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) { //Q&A
-                  return DropdownMenuItem<String>(value: item, child: Text(item)); //taken from flutter website
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedRegion = newValue!;
-                    ApiCalls().fetchClinics(_selectedRegion);
-                  });
-                },
-              ),
-            ),
+            // Center(
+            //   child: Container(
+            //     width: 240,
+            //     decoration: BoxDecoration(
+            //       borderRadius: BorderRadius.circular(12),
+            //       color: Colors.teal.shade100,
+            //     ),
+            //     alignment: Alignment.center,
+            //     child:
+            //   ),
+            // ),
             //TODO FutureBuilder to get clinics in selected region
             FutureBuilder<List<Clinic>>(
               future:  ApiCalls().fetchClinics(_selectedRegion),
@@ -57,26 +80,33 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
                         Clinic clinic= snapshot.data![index];
-                        return ListTile(
-                          title: Text(clinic.name),
-                          subtitle: Text(clinic.address),
-                          onTap: () async {
-                            _selectedClinic = clinic;
-                            showModalBottomSheet(
-                              backgroundColor: Colors.grey.shade50,
-                              context: context,
-                              isScrollControlled: true,
-                              builder: (context){
-                                return SingleChildScrollView(
-                                  child: Padding(
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context).viewInsets.bottom),
-                                    child: AddApptScreen(addApptCallback: _addTask,),
-                                  ),
-                                );
-                              }
-                            );
-                          },
+                        return Card(
+                          child: ListTile(
+                            tileColor: AppColors.Background,
+                            title: Text(clinic.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
+                            subtitle: Column(
+                              children: [
+                                Divider(thickness: 2, color: AppColors.Borders,)
+                              ],
+                            ),
+                            onTap: () async {
+                              _selectedClinic = clinic;
+                              showModalBottomSheet(
+                                backgroundColor: Colors.grey.shade50,
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context){
+                                  return SingleChildScrollView(
+                                    child: Padding(
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom),
+                                      child: AddApptScreen(addApptCallback: _addTask,),
+                                    ),
+                                  );
+                                }
+                              );
+                            },
+                          ),
                         );
                       },
                     ),

@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:intl/intl.dart';
 import '../utilities/firebase_calls.dart';
 import '../widgets/navigation_bar.dart';
 import '../utilities/app_colors.dart';
@@ -45,7 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       QueryDocumentSnapshot doc = snapshot.data!.docs[index];
                       return ListTile(
                         title: Text(doc['clinicName']),
-                        subtitle: Text(doc['date']),
+                        subtitle: Text(DateFormat('dd MMM yyyy').format(doc['date'].toDate())),
                       );
                     },
                   ),

@@ -6,6 +6,7 @@ import '../screens/home_screen.dart';
 import '../screens/update_app_user_screen.dart';
 import '../utilities/firebase_calls.dart';
 import '../models/app_user.dart';
+import '../utilities/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
