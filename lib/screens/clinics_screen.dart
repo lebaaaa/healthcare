@@ -25,6 +25,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
+      backgroundColor: Colors.grey.shade50,
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 1),
       body: SafeArea(
         child: Column(
@@ -35,7 +36,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                 menuMaxHeight: 300,
                 value:
                 _selectedRegion,
-                items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) {
+                items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) { //Q&A
                   return DropdownMenuItem<String>(value: item, child: Text(item)); //taken from flutter website
                 }).toList(),
                 onChanged: (newValue) {
@@ -62,6 +63,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                           onTap: () async {
                             _selectedClinic = clinic;
                             showModalBottomSheet(
+                              backgroundColor: Colors.grey.shade50,
                               context: context,
                               isScrollControlled: true,
                               builder: (context){

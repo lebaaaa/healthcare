@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../utilities/firebase_calls.dart';
 import '../widgets/navigation_bar.dart';
+import '../utilities/app_colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

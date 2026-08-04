@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
+import 'package:intl/intl.dart';
+import '../utilities/app_colors.dart';
 
 class AddApptScreen extends StatefulWidget {
   AddApptScreen({super.key, required this.addApptCallback, });
@@ -10,10 +12,9 @@ class AddApptScreen extends StatefulWidget {
 }
 
 class _AddApptScreenState extends State<AddApptScreen> {
-  final TextEditingController dateController = TextEditingController();
-
-  final TextEditingController timeController = TextEditingController();
-  late DateTime _selectedDate;
+  final List<String> _timeSlots = ['09:00 AM', '10:00 AM', '11:00 AM', '02:00 PM', '03:00 PM', '04:00 PM'];
+  DateTime ? _selectedDate;
+  String ? _selectedTime;
   @override
   Widget build(BuildContext context) {
     // TODO Widgets for user to enter date and time
@@ -23,34 +24,94 @@ class _AddApptScreenState extends State<AddApptScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(
-            'Appointment Date & Time',
-            textAlign: TextAlign.center,
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.cyan, fontSize: 24),
-          ),
-          DatePicker(maxDate: DateTime(DateTime.now().year + 1), minDate: DateTime.now(),
-             onDateSelected: (date){
-              setState(() {
-                _selectedDate = date;
-              });
-             },
-          ),
-          SizedBox(height: 8,),
-          TextField(
-            textAlign: TextAlign.center,
-            decoration: InputDecoration(
-              //border: OutlineInputBorder(),
-              labelText: 'Time',
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Text(
+
+              'Appointment Date & Time',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 24),
             ),
-            controller: timeController,
           ),
-          ElevatedButton(
-            onPressed: (){
-              widget.addApptCallback(_selectedDate, timeController.text);
-              Navigator.pop(context);
+          ListTile(
+            contentPadding: EdgeInsets.all(5),
+            tileColor: Colors.white,
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                spacing: 20,
+                children: [
+                  Icon(Icons.calendar_today, color: AppColors.Primary, size: 30,),
+                  Text(_selectedDate == null ? 'Select a date':
+                    DateFormat('dd MMM yyyy').format(_selectedDate!), style: TextStyle(color: Colors.grey.shade600, fontSize: 23),)
+                ]
+              ),
+            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200, width: 2)),
+
+            onTap: () async {
+              final picked = await showDatePickerDialog(
+                context: context,
+                minDate: DateTime.now(),
+                maxDate: DateTime(DateTime.now().year + 1, DateTime.now().month, DateTime.now().day),
+              );
+              if (picked != null) {
+                setState(() => _selectedDate = picked);
+              }
             },
-            style: ElevatedButton.styleFrom(backgroundColor: Colors.cyan),
-            child: const Text("ADD"),
+          ),
+          SizedBox(height: 15,),
+          ListTile(
+            contentPadding: EdgeInsets.all(5),
+            tileColor: Colors.white,
+            title: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Row(
+                  spacing: 20,
+                  children: [
+                    Icon(Icons.access_time, color: AppColors.Primary, size: 30,),
+                    Text(_selectedTime == null ? 'Select a time':
+                    _selectedTime!, style: TextStyle(color: Colors.grey.shade600, fontSize: 23),)
+                  ]
+              ),
+            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200, width: 2)),
+
+            onTap: () async {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Select a Time'),
+                    content: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: _timeSlots.map((time) {
+                        return ChoiceChip(
+                          label: Text(time),
+                          selected: _selectedTime == time,
+                          onSelected: (bool selected) {
+                            setState(() {
+                              _selectedTime = time ;
+                            });
+                            Navigator.pop(context);
+                          },
+                        );
+                      }).toList(),
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+          SizedBox(height: 30,),
+          ElevatedButton(
+            onPressed: (_selectedTime != null) && (_selectedDate != null) ? (){
+              widget.addApptCallback(_selectedDate, _selectedTime);
+              Navigator.pop(context);
+            }:null,
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.teal.shade700, minimumSize: Size(30, 60)),
+            child: const Text("Confirm Booking", style: TextStyle(color: Colors.white, fontSize: 20),),
           )
         ],
       ),
