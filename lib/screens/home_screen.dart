@@ -17,7 +17,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Title'),
+        backgroundColor: AppColors.Primary,
+        centerTitle: true,
+        title: const Text(
+          'Healthcare',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 24),
+        ),
         actions: [
           IconButton(
             onPressed: () {
