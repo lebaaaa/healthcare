@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../utilities/app_colors.dart';
 
 class MyBottomNavigationBar extends StatefulWidget {
   MyBottomNavigationBar({super.key, required this.selectedIndexNavBar});
@@ -43,6 +44,8 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           icon: Icon(Icons.person),
         ),
       ],
+
+      selectedItemColor: AppColors.Primary,
       currentIndex: widget.selectedIndexNavBar,
       onTap: _onTap,
     );

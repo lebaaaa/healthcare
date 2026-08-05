@@ -106,7 +106,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                             onPressed: () {
                               _selectedClinic = clinic;
                               showModalBottomSheet(
-                                backgroundColor: Colors.grey.shade50,
+                                backgroundColor: AppColors.Background,
                                 context: context,
                                 isScrollControlled: true,
                                 builder: (context) {
