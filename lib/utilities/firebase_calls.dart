@@ -86,11 +86,27 @@ class FirebaseCalls {
       'userName': appointment.userName,
       'userid': appointment.userid,
     });
-
   }
   Stream<QuerySnapshot> getAppointments() {
     return appointmentsCollection
         .where('userid', isEqualTo: auth.currentUser?.uid)
         .snapshots();
+  }
+  Future<void> updateAppointmentDateTime(String docId, DateTime newDate, String newTime) async {
+    await appointmentsCollection
+      .doc(docId)
+      .update({
+        'date': newDate,
+        'time': newTime,
+        })
+      .then((value) => print("Task Updated"))
+      .catchError((error) => print("Failed to update task: $error"));
+  }
+  Future<void> deleteAppointment(String docId) async {
+    await appointmentsCollection
+      .doc(docId)
+      .delete()
+      .then((value) => print("Task Deleted"))
+      .catchError((error) => print("Failed to delete task: $error"));
   }
 }

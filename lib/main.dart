@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:healthcare/screens/news_screen.dart';
 import 'firebase_options.dart';
 
 import '../screens/login_screen.dart';
@@ -28,6 +29,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeScreen(),
         '/clinics': (context) => const ClinicsScreen(),
         '/user': (context) => const UpdateAppUserScreen(),
+        '/news': (context) => const NewsScreen(),
       },
     );
   }

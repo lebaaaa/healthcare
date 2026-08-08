@@ -24,7 +24,33 @@ class ApiCalls {
   }
 
   //TODO Any other APIs
+   // RAPIDAPI: Real-Time News Data
+   Future<List<dynamic>> fetchHealthNews() async {
+     // We use the topic-headlines endpoint as it is simpler for general health news
+     final uri = Uri.parse(
+         'https://real-time-news-data.p.rapidapi.com/topic-headlines?topic=HEALTH&limit=5&country=US&lang=en');
 
+     final headers = {
+       'x-rapidapi-key': '714c220b6dmsh6bf8b78e89eebf8p1149a3jsn338b6da04724',
+       'x-rapidapi-host': 'real-time-news-data.p.rapidapi.com',
+     };
+
+     final response = await http.get(uri, headers: headers);
+
+     if (response.statusCode == 200) {
+       final decoded = json.decode(response.body);
+
+       // The Real-Time News API usually returns the articles inside a 'data' array
+       if (decoded.containsKey('data')) {
+         return decoded['data'] as List<dynamic>;
+       } else {
+         return [];
+       }
+     } else {
+       print('News API Error: ${response.statusCode} - ${response.body}');
+       throw Exception('Failed to load health news');
+     }
+   }
 
   Map<String, String> regionId = {
     'Ang Mo Kio': '51e66a8219edf55940597eb976dbc906f63ff00101f90108ce2f0100000000c0020992030a416e67204d6f204b696f',
