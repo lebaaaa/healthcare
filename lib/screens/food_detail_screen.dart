@@ -16,23 +16,6 @@ class FoodDetailScreen extends StatelessWidget {
     return 0;
   }
 
-  Widget nutritionRow(String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        children: [
-          Expanded(
-            child: Text(label, style: const TextStyle(fontSize: 16)),
-          ),
-          Text(
-            value,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     double calories = getNutrientValue('Energy');
@@ -80,10 +63,10 @@ class FoodDetailScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Divider(),
-                nutritionRow('Calories', '${calories.toStringAsFixed(0)} kcal'),
-                nutritionRow('Protein', '${protein.toStringAsFixed(1)} g'),
-                nutritionRow('Fat', '${fat.toStringAsFixed(1)} g'),
-                nutritionRow('Carbs', '${carbs.toStringAsFixed(1)} g'),
+                NutritionRow(label: 'Calories', value: '${calories.toStringAsFixed(0)} kcal'),
+                NutritionRow(label: 'Protein', value: '${protein.toStringAsFixed(1)} g'),
+                NutritionRow(label: 'Fat', value: '${fat.toStringAsFixed(1)} g'),
+                NutritionRow(label: 'Carbs', value: '${carbs.toStringAsFixed(1)} g'),
 
                 const SizedBox(height: 20),
                 const Text(
@@ -91,15 +74,44 @@ class FoodDetailScreen extends StatelessWidget {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
                 const Divider(),
-                nutritionRow('Calcium', '${calcium.toStringAsFixed(1)} mg'),
-                nutritionRow('Iron', '${iron.toStringAsFixed(2)} mg'),
-                nutritionRow('Sodium', '${sodium.toStringAsFixed(0)} mg'),
-                nutritionRow('Vitamin C', '${vitaminC.toStringAsFixed(1)} mg'),
-                nutritionRow('Vitamin D', '${vitaminD.toStringAsFixed(0)} IU'),
+                NutritionRow(label: 'Calcium', value: '${calcium.toStringAsFixed(1)} mg'),
+                NutritionRow(label: 'Iron', value: '${iron.toStringAsFixed(2)} mg'),
+                NutritionRow(label: 'Sodium', value: '${sodium.toStringAsFixed(0)} mg'),
+                NutritionRow(label: 'Vitamin C', value: '${vitaminC.toStringAsFixed(1)} mg'),
+                NutritionRow(label: 'Vitamin D', value: '${vitaminD.toStringAsFixed(0)} IU'),
               ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class NutritionRow extends StatelessWidget {
+  const NutritionRow({
+    super.key,
+    required this.label,
+    required this.value,
+  });
+
+  final String label;
+  final String value;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Row(
+        children: [
+          Expanded(
+            child: Text(label, style: const TextStyle(fontSize: 16)),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+        ],
       ),
     );
   }
