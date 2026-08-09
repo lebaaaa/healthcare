@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:intl/intl.dart';
 import '../utilities/app_colors.dart';
+import '../screens/food_search_screen.dart';
 
 class AddApptScreen extends StatefulWidget {
   AddApptScreen({super.key, required this.addApptCallback, });
@@ -126,6 +127,7 @@ class _AddApptScreenState extends State<AddApptScreen> {
               child: ElevatedButton(
                 onPressed: (_selectedTime != null) && (_selectedDate != null) ? (){
                   widget.addApptCallback(_selectedDate, _selectedTime);
+                  // Navigator.pushReplacementNamed(context, '/test');
                   Navigator.pop(context);
                 }:null,
                 style: ElevatedButton.styleFrom(backgroundColor: Colors.teal.shade700, minimumSize: Size(30, 60)),

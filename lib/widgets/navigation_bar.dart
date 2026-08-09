@@ -21,10 +21,13 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           Navigator.pushReplacementNamed(context, '/clinics');
           break;
         case 2:
-          Navigator.pushReplacementNamed(context, '/user');
+          Navigator.pushReplacementNamed(context, '/food');
           break;
         case 3:
           Navigator.pushReplacementNamed(context, '/news');
+          break;
+        case 4:
+          Navigator.pushReplacementNamed(context, '/user');
           break;
       }
     });
@@ -43,12 +46,16 @@ class _MyBottomNavigationBarState extends State<MyBottomNavigationBar> {
           icon: Icon(Icons.local_hospital),
         ),
         BottomNavigationBarItem(
-          label: 'User',
-          icon: Icon(Icons.person),
+          label: 'Food',
+          icon: Icon(Icons.restaurant_menu),
         ),
         BottomNavigationBarItem(
           label: 'News',
           icon: Icon(Icons.newspaper),
+        ),
+        BottomNavigationBarItem(
+          label: 'User',
+          icon: Icon(Icons.person),
         ),
 
       ],

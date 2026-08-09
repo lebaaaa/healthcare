@@ -7,6 +7,7 @@ import '../screens/login_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/clinics_screen.dart';
 import '../screens/update_app_user_screen.dart';
+import 'package:healthcare/screens/food_search_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -30,6 +31,7 @@ class MyApp extends StatelessWidget {
         '/clinics': (context) => const ClinicsScreen(),
         '/user': (context) => const UpdateAppUserScreen(),
         '/news': (context) => const NewsScreen(),
+        '/food': (context) => const FoodSearchScreen(),
       },
     );
   }

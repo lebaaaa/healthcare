@@ -33,7 +33,7 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
         ),
         backgroundColor: AppColors.Primary,
       ),
-      bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 2),
+      bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 4),
       body: SafeArea(
         child: SingleChildScrollView(
           child: StreamBuilder<QuerySnapshot>(

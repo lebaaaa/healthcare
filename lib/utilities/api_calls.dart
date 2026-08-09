@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:healthcare/models/clinic.dart';
 import 'package:http/http.dart' as http;
+import '../models/food_item.dart';
 
 class ApiCalls {
 
@@ -22,6 +23,24 @@ class ApiCalls {
       throw Exception('Failed to load clinics');
     }
   }
+
+
+   Future<List<FoodItem>> searchFoods(String query) async {
+     String apiKey = 'tfqU9aXw7rxr7SLTSgUqD0tmI1VesGEIpeWbqAcf';
+     final uri = Uri.parse(
+       'https://api.nal.usda.gov/fdc/v1/foods/search?query=$query&pageSize=20&api_key=$apiKey',
+     );
+
+     final response = await http.get(uri);
+
+     if (response.statusCode == 200) {
+       Map<String, dynamic> data = jsonDecode(response.body);
+       List<dynamic> foodsJson = data['foods'] ?? [];
+       return foodsJson.map((item) => FoodItem.fromJson(item)).toList();
+     } else {
+       throw Exception('Failed to search foods');
+     }
+   }
 
   //TODO Any other APIs
    // RAPIDAPI: Real-Time News Data

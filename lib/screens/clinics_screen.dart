@@ -77,27 +77,9 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                         spacing: 15,
                         children: [
                           Divider(thickness: 2, color: Colors.black38,),
-                          Row(
-                            spacing: 10,
-                            children: [
-                              Icon(Icons.pin_drop_outlined),
-                              Expanded(child: Text(clinic.address, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
-                            ],
-                          ),
-                          Row(
-                            spacing: 10,
-                            children: [
-                              Icon(Icons.phone_sharp),
-                              Expanded(child: Text(clinic.contact, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
-                            ],
-                          ),
-                          Row(
-                            spacing: 10,
-                            children: [
-                              Icon(Icons.access_time),
-                              Expanded(child: Text(clinic.opening_hours, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
-                            ],
-                          ),
+                          ClinicDetails(clinic: clinic.address, details_icon: Icons.pin_drop_outlined,),
+                          ClinicDetails(clinic: clinic.contact, details_icon: Icons.phone_outlined,),
+                          ClinicDetails(clinic: clinic.opening_hours, details_icon: Icons.access_time,),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.Background,
@@ -149,6 +131,27 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
           },
         ),
       ),
+    );
+  }
+}
+
+class ClinicDetails extends StatelessWidget {
+  const ClinicDetails({
+    super.key,
+    required this.clinic, required this.details_icon,
+  });
+
+  final String clinic;
+  final IconData details_icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 10,
+      children: [
+        Icon(details_icon),
+        Expanded(child: Text(clinic, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),))
+      ],
     );
   }
 }
