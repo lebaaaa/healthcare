@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:healthcare/models/clinic.dart';
 import 'package:http/http.dart' as http;
 import '../models/food_item.dart';
+import '../models/news.dart';
 
 class ApiCalls {
 
@@ -44,8 +45,7 @@ class ApiCalls {
 
   //TODO Any other APIs
    // RAPIDAPI: Real-Time News Data
-   Future<List<dynamic>> fetchHealthNews() async {
-     // We use the topic-headlines endpoint as it is simpler for general health news
+   Future<List<News>> fetchHealthNews() async {
      final uri = Uri.parse(
          'https://real-time-news-data.p.rapidapi.com/topic-headlines?topic=HEALTH&limit=5&country=US&lang=en');
 
@@ -59,9 +59,10 @@ class ApiCalls {
      if (response.statusCode == 200) {
        final decoded = json.decode(response.body);
 
-       // The Real-Time News API usually returns the articles inside a 'data' array
        if (decoded.containsKey('data')) {
-         return decoded['data'] as List<dynamic>;
+         List<dynamic> jsonList = decoded['data'] as List<dynamic>;
+         // Map the raw JSON directly into your strongly-typed News model
+         return jsonList.map((json) => News.fromJson(json)).toList();
        } else {
          return [];
        }

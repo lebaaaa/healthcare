@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcare/utilities/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../models/news.dart'; // Add this import
 import '../utilities/api_calls.dart';
 import '../widgets/navigation_bar.dart';
 
@@ -27,7 +28,9 @@ class NewsScreen extends StatelessWidget {
         backgroundColor: AppColors.Primary,
       ),
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 3),
-      body: FutureBuilder<List<dynamic>>(
+
+      // Update FutureBuilder to expect List<News>
+      body: FutureBuilder<List<News>>(
         future: ApiCalls().fetchHealthNews(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
@@ -55,22 +58,9 @@ class NewsScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20.0),
             itemCount: newsList.length,
             itemBuilder: (context, index) {
-              final article = newsList[index];
 
-              // 1. Extract the title
-              final title = article['title'] ?? 'No Title Available';
-
-              // 2. Extract the source name based on your JSON structure
-              final source = article['source_name'] ?? 'Unknown Source';
-
-              // 3. Extract the image URL
-              final imageUrl = article['photo_url'] ?? '';
-
-              // 4. Extract the article link
-              final articleUrl = article['link'] ?? '';
-
-              // 5. Extract date
-              final published = article['published_datetime_utc'] ?? '';
+              // Now we have a strongly-typed News object!
+              News article = newsList[index];
 
               return Card(
                 elevation: 2,
@@ -78,27 +68,24 @@ class NewsScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
-                // InkWell makes the card tappable with a nice ripple effect
                 child: InkWell(
                   borderRadius: BorderRadius.circular(16),
                   onTap: () {
-                    if (articleUrl.isNotEmpty) {
-                      launchURL(articleUrl);
+                    if (article.articleUrl.isNotEmpty) {
+                      launchURL(article.articleUrl);
                     }
                   },
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Render image if URL exists
-                      if (imageUrl.isNotEmpty)
+                      if (article.imageUrl.isNotEmpty)
                         ClipRRect(
                           borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
                           child: Image.network(
-                            imageUrl,
+                            article.imageUrl,
                             height: 180,
                             width: double.infinity,
                             fit: BoxFit.cover,
-                            // If the image fails to load, collapse the space
                             errorBuilder: (context, error, stackTrace) => const SizedBox.shrink(),
                           ),
                         ),
@@ -114,7 +101,7 @@ class NewsScreen extends StatelessWidget {
                                 const SizedBox(width: 8),
                                 Expanded(
                                   child: Text(
-                                    source,
+                                    article.sourceName,
                                     style: TextStyle(
                                       color: Colors.teal.shade700,
                                       fontWeight: FontWeight.bold,
@@ -128,7 +115,7 @@ class NewsScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 12),
                             Text(
-                              title,
+                              article.title,
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16,
@@ -141,7 +128,7 @@ class NewsScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
-                                  _formatDate(published),
+                                  article.publishedDate,
                                   style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
                                 ),
                                 Row(
@@ -168,16 +155,5 @@ class NewsScreen extends StatelessWidget {
         },
       ),
     );
-  }
-
-  // Helper method to make the UTC date string look cleaner
-  String _formatDate(String dateString) {
-    if (dateString.isEmpty) return '';
-    try {
-      final date = DateTime.parse(dateString);
-      return "${date.day}/${date.month}/${date.year}";
-    } catch (e) {
-      return dateString.split(' ').first; // Fallback to just grabbing the first part of the string
-    }
   }
 }
