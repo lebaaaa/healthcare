@@ -51,7 +51,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onSubmitted: (_) => runSearch(),
+                    onSubmitted: (_) => runSearch(), //'_' suggested by AI as data returned by runSearch() is not used
                   ),
                 ),
                 const SizedBox(width: 8),
