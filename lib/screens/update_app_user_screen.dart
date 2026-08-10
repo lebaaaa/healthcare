@@ -18,7 +18,8 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   TextEditingController ageController = TextEditingController();
-  List<String> genders = ['Male', 'Female', 'NA'];
+  TextEditingController genderController = TextEditingController();
+  List<String> genders = ['Male', 'Female'];
   String _selectedGender = 'Male';
 
   @override
@@ -47,7 +48,7 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                   nameController.text = doc.get('name');
                   contactController.text = doc.get('contact');
                   ageController.text = doc.get('age');
-                  
+                  genderController.text = doc.get('gender');
                 }
               }
               return Padding(
@@ -67,77 +68,19 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                       style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     const SizedBox(height: 24),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Full Name',
-                        labelStyle: TextStyle(color: Colors.black),
-                        prefixIcon: const Icon(Icons.badge_outlined),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                        ),
-                      ),
-                      controller: nameController,
-                    ),
+                    detailsTextField(controller: nameController, labeltext: 'Full Name', labelicon: Icons.badge_outlined,),
                     const SizedBox(height: 24),
-                    TextField(
-                      decoration: InputDecoration(
-                        labelText: 'Contact Number',
-                        labelStyle: TextStyle(color: Colors.black),
-                        prefixIcon: const Icon(Icons.phone),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                        ),
-                      ),
-                      controller: contactController,
-                    ),
+                    detailsTextField(controller: contactController, labeltext: 'Contact Number', labelicon: Icons.phone,),
                     const SizedBox(height: 24),
                     Row(
                       children: [
                         Expanded(
-                          child: TextField(
-                            textAlign: TextAlign.center,
-                            decoration: InputDecoration(
-                              labelText: 'Age',
-                              labelStyle: TextStyle(color: Colors.black),
-                              prefixIcon: const Icon(Icons.cake_outlined),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0),
-                                borderSide: BorderSide(color: Colors.grey, width: 2.0),
-                              ),
-                            ),
-                            controller: ageController,
-                          ),
+                          child: detailsTextField(controller: ageController, labeltext: 'Age', labelicon: Icons.cake,),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: DropdownButtonFormField(
-                              hint: Text('Gender'),
+                              hint: Text(genderController.text),
                               icon: const Icon(Icons.arrow_drop_down),
                               decoration: InputDecoration(
                                 labelText: 'Gender',
@@ -159,7 +102,6 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                               items: [
                                 DropdownMenuItem(value: genders[0],child: Text(genders[0]),),
                                 DropdownMenuItem(value: genders[1],child: Text(genders[1]),),
-                                DropdownMenuItem(value: genders[2], child: Text(genders[2]))
                               ],
                               onChanged: (newValue){
                                 setState(() {
@@ -172,53 +114,36 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                     ),
                     const SizedBox(height: 24),
                     ElevatedButton.icon(
-                      label: Text(
-                        'Save Profile',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
+                        label: Text(
+                          'Save Profile',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: const Color(0xFF00796B), // Teal background color
-                        foregroundColor: Colors.white, // White text & icon
-                        padding: const EdgeInsets.symmetric(vertical: 16),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16.0), // Rounded corners
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: const Color(0xFF00796B), // Teal background color
+                          foregroundColor: Colors.white, // White text & icon
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16.0), // Rounded corners
+                          ),
+                          elevation: 2,
                         ),
-                        elevation: 2,
-                      ),
-                      icon: const Icon(Icons.save_outlined, size: 20),
-                      onPressed: () async {
-                        appUser = AppUser(
-                          name: nameController.text,
-                          age: ageController.text,
-                          contact: contactController.text,
-                          gender: _selectedGender,
-                          email: auth.currentUser?.email ?? "",
-                          userid: auth.currentUser?.uid ?? "",
-
-                        );
-                        await FirebaseCalls().updateAppUser(appUser);
-                        Navigator.pushReplacementNamed(context, '/home');
-                      }
+                        icon: const Icon(Icons.save_outlined, size: 20),
+                        onPressed: () async {
+                          appUser = AppUser(
+                            name: nameController.text,
+                            age: ageController.text,
+                            contact: contactController.text,
+                            gender: _selectedGender,
+                            email: auth.currentUser?.email ?? "",
+                            userid: auth.currentUser?.uid ?? "",
+                          );
+                          await FirebaseCalls().updateAppUser(appUser);
+                          Navigator.pushReplacementNamed(context, '/home');
+                        }
                     ),
-                    // ElevatedButton(
-                    //   child: const Text('Save'),
-                    //   onPressed: () async {
-                    //     appUser = AppUser(
-                    //       name: nameController.text,
-                    //       age: ageController.text,
-                    //       contact: contactController.text,
-                    //       gender: _selectedGender,
-                    //       email: auth.currentUser?.email ?? "",
-                    //       userid: auth.currentUser?.uid ?? "",
-                    //
-                    //     );
-                    //     await FirebaseCalls().updateAppUser(appUser);
-                    //     Navigator.pushReplacementNamed(context, '/home');
-                    //   },
-                    // ),
                   ],
                 ),
               );
@@ -226,6 +151,49 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
           ),
         ),
       ),
+    );
+  }
+}
+
+class detailsTextField extends StatefulWidget {
+  detailsTextField({
+    super.key,
+    required this.controller,
+    required this.labeltext,
+    required this.labelicon
+  });
+
+  final TextEditingController controller;
+  final String labeltext;
+  final IconData labelicon;
+
+  @override
+  State<detailsTextField> createState() => _detailsTextFieldState();
+}
+
+class _detailsTextFieldState extends State<detailsTextField> {
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      textAlign: TextAlign.left,
+      decoration: InputDecoration(
+        labelText: widget.labeltext,
+        labelStyle: TextStyle(color: Colors.black),
+        prefixIcon: Icon(widget.labelicon),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+        ),
+      ),
+      controller: widget.controller,
     );
   }
 }

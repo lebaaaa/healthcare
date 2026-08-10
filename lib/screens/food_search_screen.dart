@@ -32,7 +32,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
         centerTitle: true,
         title: const Text(
           'Food Search',
-          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          style: TextStyle(color: Colors.white,fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 2),

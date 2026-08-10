@@ -49,21 +49,15 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
 
           //TODO Widgets to show upcoming appointments
-          //Text('Welcome ${appointment.userName}')
           StreamBuilder<QuerySnapshot>(
             stream: FirebaseCalls().getAppointments(),
             builder: (context, snapshot) {
-              // 1. Show a loading spinner while waiting for data
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
               }
-
-              // 2. Handle errors if any occur
               if (snapshot.hasError) {
                 return Center(child: Text('Error: ${snapshot.error}'));
               }
-
-              // 3. Handle the empty list state safely
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                 return Expanded(
                   child: Padding(
@@ -75,25 +69,26 @@ class _HomeScreenState extends State<HomeScreen> {
                           userName: appUser.name,
                           appointmentCount: 0,
                         ),
-                        const SizedBox(height: 150),
-                        Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.event_busy_rounded,
-                                size: 80,
-                                color: Colors.grey.shade400,
-                              ),
-                              const SizedBox(height: 12),
-                              Text(
-                                'No upcoming appointments.',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.grey.shade600,
+                        Expanded(
+                          child: Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.event_busy_rounded,
+                                  size: 100,
+                                  color: Colors.grey.shade400,
                                 ),
-                              ),
-                            ],
+                                const SizedBox(height: 12),
+                                Text(
+                                  'No upcoming appointments.',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey.shade600,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -101,178 +96,181 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 );
               }
+              else{
+                final docs = snapshot.data!.docs;
+                return Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        welcomeMessage(
+                          userName: appUser.name,
+                          appointmentCount: docs.length,
+                        ),
+                        const SizedBox(height: 12),
+                        Expanded(
+                          child: ListView.builder(
+                            itemCount: docs.length,
+                            itemBuilder: (context, index) {
+                              QueryDocumentSnapshot doc = docs[index];
 
-              // 4. Data is safely available here
-              final docs = snapshot.data!.docs;
+                              String dateStr = DateFormat('dd MMM yyyy').format(doc['date'].toDate());
+                              String timeStr = doc['time'] ?? '';
 
-              return Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(height: 12),
-                      welcomeMessage(
-                        userName: appUser.name,
-                        appointmentCount: docs.length,
-                      ),
-                      const SizedBox(height: 12),
-                      Expanded(
-                        child: ListView.builder(
-                          itemCount: docs.length,
-                          itemBuilder: (context, index) {
-                            QueryDocumentSnapshot doc = docs[index];
-
-                            String dateStr = DateFormat('dd MMM yyyy').format(doc['date'].toDate());
-                            String timeStr = doc['time'] ?? '';
-
-                            return GestureDetector(
-                              onTap: (){
-                                showModalBottomSheet(
-                                  backgroundColor: AppColors.Background,
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) {
-                                    return SingleChildScrollView(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(
-                                            bottom: MediaQuery
-                                                .of(context)
-                                                .viewInsets
-                                                .bottom),
-                                        child: AddApptScreen(
-                                          addApptCallback: (DateTime updatedDate, String updatedTime) {
-                                            // Pass the specific doc.id and the new values to your function
-                                            _updateAppt(doc.id, updatedDate, updatedTime);// Close the bottom sheet
-                                          },
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                );
-                              },
-                              onLongPress: (){
-                                // showDialog and AlertDialog suggested by Gemini AI
-                                showDialog(
-                                  context: context,
-                                  builder: (BuildContext dialogContext) {
-                                    return AlertDialog(
-                                      title: const Text('Delete Appointment'),
-                                      content: const Text('Are you sure you want to delete this appointment? This action cannot be undone.'),
-                                      actions: [
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(dialogContext); // Close the dialog without doing anything
-                                          },
-                                          child: const Text('Cancel'),
-                                        ),
-                                        TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(dialogContext); // Close the dialog
-                                            _deleteAppt(doc.id); // Call your delete function
-                                          },
-                                          child: const Text(
-                                            'Delete',
-                                            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                              return GestureDetector(
+                                onTap: (){
+                                  showModalBottomSheet(
+                                    backgroundColor: AppColors.Background,
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) {
+                                      return SingleChildScrollView(
+                                        child: Padding(
+                                          padding: EdgeInsets.only(
+                                              bottom: MediaQuery
+                                                  .of(context)
+                                                  .viewInsets
+                                                  .bottom),
+                                          child: AddApptScreen(
+                                            addApptCallback: (DateTime updatedDate, String updatedTime) {
+                                              _updateAppt(doc.id, updatedDate, updatedTime);
+                                            },
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
-                              },
-                              child: Container(
-                                margin: const EdgeInsets.only(bottom: 14),
-                                padding: const EdgeInsets.all(16),
-                                decoration: BoxDecoration(
-                                  color: AppColors.Primary, // Solid primary background
-                                  borderRadius: BorderRadius.circular(20),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColors.Primary,
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 4),
-                                    ),
-                                  ],
-                                ),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      children: [
-                                        CircleAvatar(
-                                          backgroundColor: Colors.white24, // Translucent white circle
-                                          child: const Icon(
-                                            Icons.local_hospital_rounded,
-                                            color: Colors.white,
+                                      );
+                                    },
+                                  );
+                                },
+                                onLongPress: (){
+                                  // Using showDialog and AlertDialog widget
+                                  // suggested by Gemini AI
+                                  showDialog(
+                                    context: context,
+                                    builder: (BuildContext dialogContext) {
+                                      return AlertDialog(
+                                        title: const Text('Delete Appointment'),
+                                        content: const Text('Are you sure you want to delete this '
+                                            'appointment? This action cannot be undone.'),
+                                        actions: [
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(dialogContext);
+                                            },
+                                            child: const Text('Cancel'),
                                           ),
-                                        ),
-                                        const SizedBox(width: 12),
-                                        Expanded(
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                doc['clinicName'],
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
-                                                ),
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                              const SizedBox(height: 2),
-                                              Text(
-                                                'Confirmed Appointment',
-                                                style: TextStyle(
-                                                  color: Colors.white70,
-                                                  fontSize: 12,
-                                                ),
-                                              ),
-                                            ],
+                                          TextButton(
+                                            onPressed: () {
+                                              Navigator.pop(dialogContext);
+                                              _deleteAppt(doc.id);
+                                            },
+                                            child: const Text(
+                                              'Delete',
+                                              style: TextStyle(
+                                                color: Colors.red,
+                                                fontWeight: FontWeight.bold),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    const SizedBox(height: 12),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal: 12,
-                                        vertical: 8,
+                                        ],
+                                      );
+                                    },
+                                  );
+                                },
+                                child: Container(
+                                  margin: const EdgeInsets.only(bottom: 16),
+                                  padding: const EdgeInsets.all(16),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.Primary,
+                                    borderRadius: BorderRadius.circular(20),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: AppColors.Primary,
+                                        blurRadius: 2,
+                                        offset: const Offset(0, 4),
                                       ),
-                                      decoration: BoxDecoration(
-                                        color: Colors.black12, // Darkened pill background
-                                        borderRadius: BorderRadius.circular(12),
-                                      ),
-                                      child: Row(
+                                    ],
+                                  ),
+                                  child: Column(
+                                    children: [
+                                      Row(
                                         children: [
-                                          const Icon(
-                                            Icons.calendar_today_rounded,
-                                            color: Colors.white,
-                                            size: 16,
-                                          ),
-                                          const SizedBox(width: 20),
-                                          Text(
-                                            '$dateStr, $timeStr',
-                                            style: const TextStyle(
+                                          CircleAvatar(
+                                            backgroundColor: Colors.white24,
+                                            child: const Icon(
+                                              Icons.local_hospital_rounded,
                                               color: Colors.white,
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.w500,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  doc['clinicName'],
+                                                  style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                  // Overflow in case clinic name is too long
+                                                  // suggested by Gemini AI
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                const SizedBox(height: 2),
+                                                Text(
+                                                  'Confirmed Appointment',
+                                                  style: TextStyle(
+                                                    color: Colors.white70,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ],
                                       ),
-                                    ),
-                                  ],
+                                      const SizedBox(height: 12),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 12,
+                                          vertical: 8,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black12,
+                                          borderRadius: BorderRadius.circular(12),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            const Icon(
+                                              Icons.calendar_today_rounded,
+                                              color: Colors.white,
+                                              size: 16,
+                                            ),
+                                            const SizedBox(width: 20),
+                                            Text(
+                                              '$dateStr, $timeStr',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                            );
-                          },
-                        ),
-                      )
-                    ],
+                              );
+                            },
+                          ),
+                        )
+                      ],
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
           )
         ],
@@ -303,7 +301,7 @@ class _welcomeMessageState extends State<welcomeMessage> {
       children: [
         SizedBox(height: 12,),
         Text(
-          'Hello, ${widget.userName}!',
+          'Welcome ${widget.userName}!',
           style: TextStyle(
               color: Colors.teal,
               fontSize: 30,
@@ -312,8 +310,13 @@ class _welcomeMessageState extends State<welcomeMessage> {
         ),
         SizedBox(height: 6,),
         Text(
-          "You have upcoming ${widget.appointmentCount} appointment",
+          "You have upcoming ${widget.appointmentCount} appointment(s).",
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+        ),
+        SizedBox(height: 6,),
+        Text(
+          "Tap to update & Hold to delete appointments.",
+          style: TextStyle(fontSize: 16),
         ),
         SizedBox(height: 12,)
       ],

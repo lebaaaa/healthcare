@@ -44,7 +44,6 @@ class ApiCalls {
    }
 
   //TODO Any other APIs
-   // RAPIDAPI: Real-Time News Data
    Future<List<News>> fetchHealthNews() async {
      final uri = Uri.parse(
          'https://real-time-news-data.p.rapidapi.com/topic-headlines?topic=HEALTH&limit=5&country=US&lang=en');
@@ -61,7 +60,6 @@ class ApiCalls {
 
        if (decoded.containsKey('data')) {
          List<dynamic> jsonList = decoded['data'] as List<dynamic>;
-         // Map the raw JSON directly into your strongly-typed News model
          return jsonList.map((json) => News.fromJson(json)).toList();
        } else {
          return [];
