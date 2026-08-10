@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:healthcare/utilities/app_colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import '../models/news.dart'; // Add this import
+import '../models/news.dart';
 import '../utilities/api_calls.dart';
 import '../widgets/navigation_bar.dart';
 
