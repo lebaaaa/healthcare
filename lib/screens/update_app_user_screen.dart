@@ -19,6 +19,7 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
   TextEditingController contactController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController genderController = TextEditingController();
+
   List<String> genders = ['Male', 'Female'];
   String _selectedGender = 'Male';
 
