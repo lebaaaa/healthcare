@@ -44,23 +44,50 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.teal.shade400,
               ),
-              child: DropdownButton(
-                borderRadius: BorderRadius.circular(12),
-                dropdownColor: Colors.teal.shade400,
-                menuMaxHeight: 300,
-                value:
-                _selectedRegion,
-                items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) { //Q&A
-                  return DropdownMenuItem<String>(value: item, child: Text(item, style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,),)); //taken from flutter website
-                }).toList(),
-                onChanged: (newValue) {
-                  setState(() {
-                    _selectedRegion = newValue!;
-                    ApiCalls().fetchClinics(_selectedRegion);
-                  });
-                },
+              child: DropdownButtonHideUnderline(
+                child: InputDecorator(
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    prefixIcon: Icon(Icons.location_on, color: AppColors.Primary),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: AppColors.Primary, width: 1.5),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: AppColors.Primary, width: 1.5),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12.0),
+                      borderSide: BorderSide(color: AppColors.Primary, width: 2.0),
+                    ),
+                  ),
+                  child: DropdownButton<String>(
+                    isDense: true,
+                    isExpanded: true, // Makes it fill the available width
+                    icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.Primary),
+                    value: _selectedRegion,
+                    style: TextStyle(
+                      color: AppColors.Primary,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    items: ApiCalls().regionId.keys.map<DropdownMenuItem<String>>((String item) {
+                      return DropdownMenuItem<String>(
+                        value: item,
+                        child: Text(item),
+                      );
+                    }).toList(),
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedRegion = newValue!;
+                        ApiCalls().fetchClinics(_selectedRegion);
+                      });
+                    },
+                  ),
+                ),
               ),
             ),
             Expanded(
