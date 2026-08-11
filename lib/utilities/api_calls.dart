@@ -44,12 +44,12 @@ class ApiCalls {
    }
 
   //TODO Any other APIs
-   Future<List<News>> fetchHealthNews() async {
+   Future<List<News>> fetchHealthNews(String countryCode) async {
      final uri = Uri.parse(
-         'https://real-time-news-data.p.rapidapi.com/topic-headlines?topic=HEALTH&limit=5&country=US&lang=en');
+         'https://real-time-news-data.p.rapidapi.com/topic-headlines?topic=HEALTH&limit=5&country=$countryCode&lang=en');
 
      final headers = {
-       'x-rapidapi-key': '714c220b6dmsh6bf8b78e89eebf8p1149a3jsn338b6da04724',
+       'x-rapidapi-key': '6c8f15a02emsh8c6e92712d8a0b1p1d61a6jsnec33d128676a',
        'x-rapidapi-host': 'real-time-news-data.p.rapidapi.com',
      };
 

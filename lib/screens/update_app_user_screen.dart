@@ -71,17 +71,21 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                     const SizedBox(height: 24),
                     Text(
                       'Personal Information',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.textPrimary),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20,
+                          color: AppColors.textPrimary),
                     ),
                     const SizedBox(height: 24),
-                    detailsTextField(controller: nameController, labeltext: 'Full Name', labelicon: Icons.badge_outlined,),
+                    detailsTextField(controller: nameController, labeltext: 'Full Name',
+                      labelicon: Icons.badge_outlined,),
                     const SizedBox(height: 24),
-                    detailsTextField(controller: contactController, labeltext: 'Contact Number', labelicon: Icons.phone,),
+                    detailsTextField(controller: contactController, labeltext: 'Contact Number',
+                      labelicon: Icons.phone,),
                     const SizedBox(height: 24),
                     Row(
                       children: [
                         Expanded(
-                          child: detailsTextField(controller: ageController, labeltext: 'Age', labelicon: Icons.cake,),
+                          child: detailsTextField(controller: ageController, labeltext: 'Age',
+                            labelicon: Icons.cake,),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -128,11 +132,11 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary, // Teal background color
-                          foregroundColor: Colors.white, // White text & icon
+                          backgroundColor: AppColors.primary,
+                          foregroundColor: Colors.white,
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16.0), // Rounded corners
+                            borderRadius: BorderRadius.circular(16.0),
                           ),
                           elevation: 2,
                         ),

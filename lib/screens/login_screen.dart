@@ -25,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             // Wrap the SignInScreen in a Theme to force firebase_ui_auth to use custom styles
-            // Suggested by Gemini AI
+            // Suggested by Gemini (Google AI, 2026)
             return Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: Theme.of(context).colorScheme.copyWith(
@@ -115,7 +115,6 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             );
           } else {
-            //check if User is found in appUsers collection
             return FutureBuilder<AppUser>(
               future: FirebaseCalls().getAppUser(snapshot.data!.uid),
               builder: (context, snapshot2) {

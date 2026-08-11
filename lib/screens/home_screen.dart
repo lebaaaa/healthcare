@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import '../models/appointment.dart';
 import '../utilities/firebase_calls.dart';
 import '../widgets/navigation_bar.dart';
 import '../utilities/app_colors.dart';
@@ -144,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 },
                                 onLongPress: (){
                                   // Using showDialog and AlertDialog widget
-                                  // suggested by Gemini AI
+                                  // suggested by Gemini (Google AI, 2026)
                                   showDialog(
                                     context: context,
                                     builder: (BuildContext dialogContext) {
@@ -214,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                   // Overflow in case clinic name is too long
-                                                  // suggested by Gemini AI
+                                                  // suggested by Gemini (Google AI, 2026)
                                                   overflow: TextOverflow.ellipsis,
                                                 ),
                                                 const SizedBox(height: 2),
