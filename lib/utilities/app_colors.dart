@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+//teal theme suggested by Gemini (Google AI, 2026)
 class AppColors {
   // Main colours
   static final Color primary = Colors.teal.shade700;

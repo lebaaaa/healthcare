@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:date_picker_plus/date_picker_plus.dart';
 import 'package:intl/intl.dart';
 import '../utilities/app_colors.dart';
-import '../screens/food_search_screen.dart';
 
 class AddApptScreen extends StatefulWidget {
   AddApptScreen({super.key, required this.addApptCallback, });
