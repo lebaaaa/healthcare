@@ -20,8 +20,12 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
   TextEditingController ageController = TextEditingController();
   TextEditingController genderController = TextEditingController();
 
+  // Debugging assistance suggested by Gemini (Google AI, 2026)
+  // Flag is used to prevent StreamBuilder from overwriting unsaved inputs during setState.
+  bool _isDataLoaded = false;
+
   List<String> genders = ['Male', 'Female'];
-  String _selectedGender = 'Male';
+  String _selectedGender = 'Gender';
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +47,7 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                 .where('userid', isEqualTo: auth.currentUser?.uid)
                 .snapshots(),
             builder: (context, snapshot) {
-              if (snapshot.hasData) {
+              if (snapshot.hasData && !_isDataLoaded) {
                 if (snapshot.data!.docs.isNotEmpty) {
                   QueryDocumentSnapshot doc = snapshot.data!.docs[0];
                   nameController.text = doc.get('name');
@@ -51,12 +55,13 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                   ageController.text = doc.get('age');
                   genderController.text = doc.get('gender');
                 }
+                _isDataLoaded = true;
               }
               return Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: <Widget>[
+                  children: [
                     const SizedBox(height: 24),
                     CircleAvatar(
                       radius: 50,

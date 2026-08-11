@@ -85,7 +85,9 @@ class FirebaseCalls {
       'time': appointment.time,
       'userName': appointment.userName,
       'userid': appointment.userid,
-    });
+    })
+    .then((value) => print("Appointment Added"))
+    .catchError((error) => print("Failed to add Appointment: $error"));
   }
   Stream<QuerySnapshot> getAppointments() {
     return appointmentsCollection
@@ -99,14 +101,14 @@ class FirebaseCalls {
         'date': newDate,
         'time': newTime,
         })
-      .then((value) => print("Task Updated"))
-      .catchError((error) => print("Failed to update task: $error"));
+      .then((value) => print("Appointment Updated"))
+      .catchError((error) => print("Failed to update Appointment: $error"));
   }
   Future<void> deleteAppointment(String docId) async {
     await appointmentsCollection
       .doc(docId)
       .delete()
-      .then((value) => print("Task Deleted"))
-      .catchError((error) => print("Failed to delete task: $error"));
+      .then((value) => print("Appointment Deleted"))
+      .catchError((error) => print("Failed to delete Appointment: $error"));
   }
 }

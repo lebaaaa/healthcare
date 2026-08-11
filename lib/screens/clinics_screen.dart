@@ -19,8 +19,10 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   String _selectedRegion = ApiCalls().regionId.keys.first;
   late Clinic _selectedClinic;
 
-  Future<void> _addTask(DateTime date, String time) async {
-    await FirebaseCalls().addAppointment(Appointment(userid: appUser.userid, userName: appUser.name, point_id: _selectedClinic.place_id, clinicName: _selectedClinic.name, date: date, time: time));
+  Future<void> _addAppointment(DateTime date, String time) async {
+    await FirebaseCalls().addAppointment(
+      Appointment(userid: appUser.userid, userName: appUser.name, point_id: _selectedClinic.place_id, clinicName: _selectedClinic.name, date: date, time: time)
+    );
   }
 
   @override
@@ -134,7 +136,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                                                     .viewInsets
                                                     .bottom),
                                             child: AddApptScreen(
-                                              addApptCallback: _addTask,),
+                                              addApptCallback: _addAppointment,),
                                           ),
                                         );
                                       },
