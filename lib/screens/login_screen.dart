@@ -19,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.Background,
+      backgroundColor: AppColors.background,
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.userChanges(),
         builder: (context, snapshot) {
@@ -29,28 +29,28 @@ class _LoginScreenState extends State<LoginScreen> {
             return Theme(
               data: Theme.of(context).copyWith(
                 colorScheme: Theme.of(context).colorScheme.copyWith(
-                  primary: AppColors.Primary,
+                  primary: AppColors.primary,
                 ),
                 inputDecorationTheme: InputDecorationTheme(
                   filled: true,
-                  fillColor: Colors.white,
+                  fillColor: AppColors.surface,
                   labelStyle: TextStyle(color: Colors.grey.shade600),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
+                    borderSide: BorderSide(color: AppColors.border, width: 1.5),
                   ),
                   enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: Colors.grey.shade300, width: 1.5),
+                    borderSide: BorderSide(color: AppColors.border, width: 1.5),
                   ),
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(12.0),
-                    borderSide: BorderSide(color: AppColors.Primary, width: 2.0),
+                    borderSide: BorderSide(color: AppColors.border, width: 2.0),
                   ),
                 ),
                 elevatedButtonTheme: ElevatedButtonThemeData(
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.Primary,
+                    backgroundColor: AppColors.primary,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
@@ -62,14 +62,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 textButtonTheme: TextButtonThemeData(
                   style: TextButton.styleFrom(
-                    foregroundColor: AppColors.Primary,
+                    foregroundColor: AppColors.primary,
                     textStyle: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
                   ),
                 ),
                 outlinedButtonTheme: OutlinedButtonThemeData(
                   style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.Primary,
-                    side: BorderSide(color: AppColors.Primary, width: 1.5),
+                    foregroundColor: AppColors.primary,
+                    side: BorderSide(color: AppColors.primary, width: 1.5),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12.0),
                     ),
@@ -84,7 +84,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 headerBuilder: (context, constraints, shrinkOffset) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: AppColors.Primary,
+                      color: AppColors.primary,
                       borderRadius: const BorderRadius.only(
                         bottomLeft: Radius.circular(32),
                         bottomRight: Radius.circular(32),

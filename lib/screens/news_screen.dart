@@ -18,14 +18,14 @@ class NewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.Background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         centerTitle: true,
         title: const Text(
           "Health News",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: AppColors.Primary,
+        backgroundColor: AppColors.primary,
       ),
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 3),
       body: FutureBuilder<List<News>>(
@@ -39,7 +39,7 @@ class NewsScreen extends StatelessWidget {
               child: Text(
                 'Error loading news.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.grey.shade600),
+                style: TextStyle(color: AppColors.textSecondary),
               ),
             );
           }
@@ -47,7 +47,7 @@ class NewsScreen extends StatelessWidget {
             return Center(
               child: Text(
                 'No news articles found.',
-                style: TextStyle(color: Colors.grey.shade500, fontSize: 16),
+                style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
               ),
             );
           }
@@ -99,13 +99,13 @@ class NewsScreen extends StatelessWidget {
                               Row(
                                 children: [
                                   Icon(Icons.newspaper_rounded,
-                                    color: Colors.teal.shade700, size: 20),
+                                    color: AppColors.primary, size: 20),
                                   const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
                                       article.sourceName,
                                       style: TextStyle(
-                                        color: Colors.teal.shade700,
+                                        color: AppColors.primary,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12,
                                       ),
@@ -118,10 +118,10 @@ class NewsScreen extends StatelessWidget {
                               const SizedBox(height: 12),
                               Text(
                                 article.title,
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontWeight: FontWeight.bold,
                                   fontSize: 16,
-                                  color: Color(0xFF1E293B),
+                                  color: AppColors.textPrimary,
                                   height: 1.4,
                                 ),
                               ),
@@ -131,18 +131,18 @@ class NewsScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     article.publishedDate,
-                                    style: TextStyle(color: Colors.grey.shade500, fontSize: 12),
+                                    style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
                                   ),
                                   Row(
                                     children: [
                                       Text(
                                         'Read Article',
-                                        style: TextStyle(color: Colors.teal.shade700,
+                                        style: TextStyle(color: AppColors.primary,
                                           fontSize: 12, fontWeight: FontWeight.bold),
                                       ),
                                       const SizedBox(width: 4),
                                       Icon(Icons.open_in_new_rounded, size: 14,
-                                        color: Colors.teal.shade700)
+                                        color: AppColors.primary)
                                     ],
                                   )
                                 ],

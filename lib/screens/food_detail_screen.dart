@@ -30,9 +30,9 @@ class FoodDetailScreen extends StatelessWidget {
     double vitaminD = getNutrientValue('Vitamin D (D2 + D3), International Units');
 
     return Scaffold(
-      backgroundColor: AppColors.Background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.Primary,
+        backgroundColor: AppColors.primary,
         title: const Text(
           'Nutrition Detail',
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
@@ -54,7 +54,7 @@ class FoodDetailScreen extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   food.brandName.isNotEmpty ? food.brandName : 'USDA Food',
-                  style: TextStyle(color: Colors.grey.shade600),
+                  style: TextStyle(color: AppColors.textSecondary),
                 ),
                 const SizedBox(height: 20),
 

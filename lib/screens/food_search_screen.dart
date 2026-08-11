@@ -26,9 +26,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.Background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.Primary,
+        backgroundColor: AppColors.primary,
         centerTitle: true,
         title: const Text(
           'Food Search',
@@ -58,7 +58,7 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                 ElevatedButton(
                   onPressed: runSearch,
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.Primary,
+                    backgroundColor: AppColors.primary,
                     minimumSize: const Size(55, 55),
                   ),
                   child: const Icon(Icons.search, color: Colors.white),
@@ -76,7 +76,9 @@ class _FoodSearchScreenState extends State<FoodSearchScreen> {
                     return const Center(child: CircularProgressIndicator());
                   }
                   if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
+                    return Center(child: Text(
+                      'Error: ${snapshot.error}',
+                      style: TextStyle(color: AppColors.error)));
                   }
                   if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(child: Text('No foods found'));

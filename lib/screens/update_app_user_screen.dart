@@ -26,14 +26,14 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.Background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
         centerTitle: true,
         title: Text(
           "My Profile",
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        backgroundColor: AppColors.Primary,
+        backgroundColor: AppColors.primary,
       ),
       bottomNavigationBar: MyBottomNavigationBar(selectedIndexNavBar: 4),
       body: SafeArea(
@@ -60,13 +60,13 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                     const SizedBox(height: 24),
                     CircleAvatar(
                       radius: 50,
-                      backgroundColor: Colors.teal.shade200,
-                      child: Icon(Icons.person, size: 60, color: Colors.teal.shade800),
+                      backgroundColor: AppColors.primaryLight,
+                      child: Icon(Icons.person, size: 60, color: AppColors.primary),
                     ),
                     const SizedBox(height: 24),
-                    const Text(
+                    Text(
                       'Personal Information',
-                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: AppColors.textPrimary),
                     ),
                     const SizedBox(height: 24),
                     detailsTextField(controller: nameController, labeltext: 'Full Name', labelicon: Icons.badge_outlined,),
@@ -85,19 +85,19 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                               icon: const Icon(Icons.arrow_drop_down),
                               decoration: InputDecoration(
                                 labelText: 'Gender',
-                                labelStyle: TextStyle(color: Colors.black),
+                                labelStyle: TextStyle(color: AppColors.textPrimary),
                                 prefixIcon: const Icon(Icons.wc), // People/Gender icon
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                                  borderSide: BorderSide(color: AppColors.border, width: 2.0),
                                 ),
                                 enabledBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                                  borderSide: BorderSide(color: AppColors.border, width: 2.0),
                                 ),
                                 focusedBorder: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(10.0),
-                                  borderSide: BorderSide(color: Colors.grey, width: 2.0),
+                                  borderSide: BorderSide(color: AppColors.border, width: 2.0),
                                 ),
                               ),
                               items: [
@@ -123,7 +123,7 @@ class _UpdateAppUserScreenState extends State<UpdateAppUserScreen> {
                           ),
                         ),
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF00796B), // Teal background color
+                          backgroundColor: AppColors.primary, // Teal background color
                           foregroundColor: Colors.white, // White text & icon
                           padding: const EdgeInsets.symmetric(vertical: 16),
                           shape: RoundedRectangleBorder(
@@ -179,19 +179,19 @@ class _detailsTextFieldState extends State<detailsTextField> {
       textAlign: TextAlign.left,
       decoration: InputDecoration(
         labelText: widget.labeltext,
-        labelStyle: TextStyle(color: Colors.black),
-        prefixIcon: Icon(widget.labelicon),
+        labelStyle: TextStyle(color: AppColors.textPrimary),
+        prefixIcon: Icon(widget.labelicon, color: AppColors.textSecondary),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+          borderSide: BorderSide(color: AppColors.border, width: 2.0),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+          borderSide: BorderSide(color: AppColors.border, width: 2.0),
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey, width: 2.0),
+          borderSide: BorderSide(color: AppColors.primary, width: 2.0),
         ),
       ),
       controller: widget.controller,

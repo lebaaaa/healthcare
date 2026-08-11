@@ -26,8 +26,9 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
   @override
   Widget build(BuildContext context)  {
     return Scaffold(
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.Primary,
+        backgroundColor: AppColors.primary,
         centerTitle: true,
         title: Text('Clinics', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.white),)
       ),
@@ -36,7 +37,7 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 5,),
+            SizedBox(height: 8,),
             Container(
               alignment: Alignment.center,
               width: 240,
@@ -48,29 +49,29 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                 child: InputDecorator(
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    prefixIcon: Icon(Icons.location_on, color: AppColors.Primary),
+                    prefixIcon: Icon(Icons.location_on, color: AppColors.primary),
                     filled: true,
-                    fillColor: Colors.white,
+                    fillColor: AppColors.surface,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(color: AppColors.Primary, width: 1.5),
+                      borderSide: BorderSide(color: AppColors.primary, width: 1.5),
                     ),
                     enabledBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(color: AppColors.Primary, width: 1.5),
+                      borderSide: BorderSide(color: AppColors.primary, width: 1.5),
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12.0),
-                      borderSide: BorderSide(color: AppColors.Primary, width: 2.0),
+                      borderSide: BorderSide(color: AppColors.primary, width: 2.0),
                     ),
                   ),
                   child: DropdownButton<String>(
                     isDense: true,
                     isExpanded: true, // Makes it fill the available width
-                    icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.Primary),
+                    icon: Icon(Icons.keyboard_arrow_down_rounded, color: AppColors.primary),
                     value: _selectedRegion,
                     style: TextStyle(
-                      color: AppColors.Primary,
+                      color: AppColors.primary,
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                     ),
@@ -101,10 +102,10 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                         Clinic clinic= snapshot.data![index];
                         return Card(
                           margin: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12), side: BorderSide(width: 1.3, color: AppColors.Borders),),
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(12), side: BorderSide(width: 1.3, color: AppColors.border),),
                           child: ListTile(
                             contentPadding: EdgeInsets.all(10),
-                            tileColor: AppColors.Background,
+                            tileColor: AppColors.background,
                             title: Text(clinic.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),),
                             subtitle: Column(
                               spacing: 15,
@@ -115,13 +116,13 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                                 ClinicDetails(clinic: clinic.opening_hours, details_icon: Icons.access_time,),
                                 ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                    backgroundColor: AppColors.Background,
-                                    side: BorderSide(width: 1.5, color: AppColors.Primary),
+                                    backgroundColor: AppColors.background,
+                                    side: BorderSide(width: 1.5, color: AppColors.primary),
                                   ),
                                   onPressed: () {
                                     _selectedClinic = clinic;
                                     showModalBottomSheet(
-                                      backgroundColor: AppColors.Background,
+                                      backgroundColor: AppColors.background,
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (context) {
@@ -145,8 +146,8 @@ class _ClinicsScreenState extends State<ClinicsScreen> {
                                       mainAxisAlignment: MainAxisAlignment.center,
                                       spacing: 15,
                                       children: [
-                                        Icon(Icons.calendar_month, size: 20,color: AppColors.Primary),
-                                        Text('Book Appointment', style: TextStyle(fontSize: 18, color: AppColors.Primary),)
+                                        Icon(Icons.calendar_month, size: 20,color: AppColors.primary),
+                                        Text('Book Appointment', style: TextStyle(fontSize: 18, color: AppColors.primary),)
                                       ],
                                     ),
                                   )

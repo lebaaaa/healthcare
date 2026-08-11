@@ -31,24 +31,24 @@ class _AddApptScreenState extends State<AddApptScreen> {
               child: Text(
                 'Appointment Date & Time',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black, fontSize: 24),
+                style: TextStyle(fontWeight: FontWeight.bold, color: AppColors.textPrimary, fontSize: 24),
               ),
             ),
             ListTile(
               contentPadding: EdgeInsets.all(5),
-              tileColor: Colors.white,
+              tileColor: AppColors.surface,
               title: Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Row(
                   spacing: 20,
                   children: [
-                    Icon(Icons.calendar_today, color: AppColors.Primary, size: 30,),
+                    Icon(Icons.calendar_today, color: AppColors.primary, size: 30,),
                     Text(_selectedDate == null ? 'Select a date':
-                      DateFormat('dd MMM yyyy').format(_selectedDate!), style: TextStyle(color: Colors.grey.shade600, fontSize: 23),)
+                      DateFormat('dd MMM yyyy').format(_selectedDate!), style: TextStyle(color: AppColors.textSecondary, fontSize: 23),)
                   ]
                 ),
               ),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200, width: 2)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: AppColors.border, width: 2)),
               onTap: () async {
                 final picked = await showDatePickerDialog(
                   height: 500,
@@ -64,33 +64,33 @@ class _AddApptScreenState extends State<AddApptScreen> {
             SizedBox(height: 15,),
             ListTile(
               contentPadding: EdgeInsets.all(5),
-              tileColor: Colors.white,
+              tileColor: AppColors.surface,
               title: Padding(
                 padding: const EdgeInsets.only(left: 15),
                 child: Row(
                     spacing: 20,
                     children: [
-                      Icon(Icons.access_time, color: AppColors.Primary, size: 30,),
+                      Icon(Icons.access_time, color: AppColors.primary, size: 30,),
                       Text(_selectedTime == null ? 'Select a time':
-                      _selectedTime!, style: TextStyle(color: Colors.grey.shade600, fontSize: 23),)
+                      _selectedTime!, style: TextStyle(color: AppColors.textSecondary, fontSize: 23),)
                     ]
                 ),
               ),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: Colors.grey.shade200, width: 2)),
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12), side: BorderSide(color: AppColors.border, width: 2)),
 
               onTap: () async {
                 showDialog(
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      backgroundColor: AppColors.Surface,
+                      backgroundColor: AppColors.surface,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(16),
                       ),
                       title: Text(
                         'Select a Time',
                         style: TextStyle(
-                          color: AppColors.Primary,
+                          color: AppColors.primary,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -101,13 +101,13 @@ class _AddApptScreenState extends State<AddApptScreen> {
                           return ChoiceChip(
                             label: Text(time),
                             selected: _selectedTime == time,
-                            selectedColor: AppColors.Primary,
-                            backgroundColor: AppColors.Background,
+                            selectedColor: AppColors.primary,
+                            backgroundColor: AppColors.background,
                             labelStyle: TextStyle(
-                              color: _selectedTime == time ? Colors.white : AppColors.Primary,
+                              color: _selectedTime == time ? Colors.white : AppColors.primary,
                               fontWeight: FontWeight.w600,
                             ),
-                            side: BorderSide(color: AppColors.Borders),
+                            side: BorderSide(color: AppColors.border),
                             onSelected: (bool selected) {
                               setState(() {
                                 _selectedTime = time;
@@ -130,7 +130,7 @@ class _AddApptScreenState extends State<AddApptScreen> {
                   // Navigator.pushReplacementNamed(context, '/test');
                   Navigator.pop(context);
                 }:null,
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.teal.shade700, minimumSize: Size(30, 60)),
+                style: ElevatedButton.styleFrom(backgroundColor: AppColors.primary, minimumSize: Size(30, 60)),
                 child: const Text("Confirm Booking", style: TextStyle(color: Colors.white, fontSize: 20),),
               ),
             )

@@ -25,9 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.Background,
+      backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: AppColors.Primary,
+        backgroundColor: AppColors.primary,
         centerTitle: true,
         title: const Text(
           'Healthcare',
@@ -77,14 +77,14 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Icon(
                                   Icons.event_busy_rounded,
                                   size: 100,
-                                  color: Colors.grey.shade400,
+                                  color: AppColors.disabled,
                                 ),
                                 const SizedBox(height: 12),
                                 Text(
                                   'No upcoming appointments.',
                                   style: TextStyle(
                                     fontSize: 16,
-                                    color: Colors.grey.shade600,
+                                    color: AppColors.textSecondary,
                                   ),
                                 ),
                               ],
@@ -121,7 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               return GestureDetector(
                                 onTap: (){
                                   showModalBottomSheet(
-                                    backgroundColor: AppColors.Background,
+                                    backgroundColor: AppColors.background,
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) {
@@ -164,10 +164,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                               Navigator.pop(dialogContext);
                                               _deleteAppt(doc.id);
                                             },
-                                            child: const Text(
+                                            child: Text(
                                               'Delete',
                                               style: TextStyle(
-                                                color: Colors.red,
+                                                color: AppColors.error,
                                                 fontWeight: FontWeight.bold),
                                             ),
                                           ),
@@ -180,11 +180,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                   margin: const EdgeInsets.only(bottom: 16),
                                   padding: const EdgeInsets.all(16),
                                   decoration: BoxDecoration(
-                                    color: AppColors.Primary,
+                                    color: AppColors.primary,
                                     borderRadius: BorderRadius.circular(20),
                                     boxShadow: [
                                       BoxShadow(
-                                        color: AppColors.Primary,
+                                        color: AppColors.primary,
                                         blurRadius: 2,
                                         offset: const Offset(0, 4),
                                       ),
@@ -303,7 +303,7 @@ class _welcomeMessageState extends State<welcomeMessage> {
         Text(
           'Welcome ${widget.userName}!',
           style: TextStyle(
-              color: Colors.teal,
+              color: AppColors.primary,
               fontSize: 30,
               fontWeight: FontWeight.bold
           ),
@@ -311,12 +311,12 @@ class _welcomeMessageState extends State<welcomeMessage> {
         SizedBox(height: 6,),
         Text(
           "You have upcoming ${widget.appointmentCount} appointment(s).",
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: TextStyle(color: AppColors.textPrimary, fontWeight: FontWeight.bold, fontSize: 16),
         ),
         SizedBox(height: 6,),
         Text(
           "Tap to update & Hold to delete appointments.",
-          style: TextStyle(fontSize: 16),
+          style: TextStyle(color: AppColors.textSecondary, fontSize: 16),
         ),
         SizedBox(height: 12,)
       ],
