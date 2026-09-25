@@ -15,6 +15,9 @@ fill in your keys, and run with:
 flutter run --dart-define-from-file=env.json
 ```
 
+In Android Studio, add it to the run configuration instead: Run > Edit Configurations,
+select `main.dart`, and put `--dart-define-from-file=env.json` in **Additional run args**.
+
 `env.json` is in `.gitignore`, so it stays on your machine.
 
 ## Getting Started
