@@ -4,10 +4,17 @@ import 'package:http/http.dart' as http;
 import '../models/food_item.dart';
 import '../models/news.dart';
 
+// API keys are passed in at build time, never stored in the code:
+//   flutter run --dart-define-from-file=env.json
+// Copy env.example.json to env.json and fill in your own keys.
+const String geoapifyApiKey = String.fromEnvironment('GEOAPIFY_API_KEY');
+const String usdaApiKey = String.fromEnvironment('USDA_API_KEY');
+const String rapidApiKey = String.fromEnvironment('RAPIDAPI_KEY');
+
 class ApiCalls {
 
    Future<List<Clinic>> fetchClinics(String region) async {
-    final String apiKey = '055f8299f2f546c8925f380234329c2c';
+    final String apiKey = geoapifyApiKey;
     final String baseURL = 'https://api.geoapify.com/v2/places';
 
     final uri = Uri.parse(
@@ -27,7 +34,7 @@ class ApiCalls {
 
 
    Future<List<FoodItem>> searchFoods(String query) async {
-     String apiKey = 'tfqU9aXw7rxr7SLTSgUqD0tmI1VesGEIpeWbqAcf';
+     String apiKey = usdaApiKey;
      final uri = Uri.parse(
        'https://api.nal.usda.gov/fdc/v1/foods/search?query=$query&pageSize=20&api_key=$apiKey',
      );
@@ -49,7 +56,7 @@ class ApiCalls {
          'https://real-time-news-data.p.rapidapi.com/topic-headlines?topic=HEALTH&limit=5&country=$countryCode&lang=en');
 
      final headers = {
-       'x-rapidapi-key': '6c8f15a02emsh8c6e92712d8a0b1p1d61a6jsnec33d128676a',
+       'x-rapidapi-key': rapidApiKey,
        'x-rapidapi-host': 'real-time-news-data.p.rapidapi.com',
      };
 

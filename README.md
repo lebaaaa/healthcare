@@ -4,6 +4,19 @@ A new Flutter project.
 
 
 hello world
+
+## API keys
+
+The app calls Geoapify (clinics), USDA FoodData Central (food search) and RapidAPI
+(health news). The keys are not stored in the code. Copy `env.example.json` to `env.json`,
+fill in your keys, and run with:
+
+```
+flutter run --dart-define-from-file=env.json
+```
+
+`env.json` is in `.gitignore`, so it stays on your machine.
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
